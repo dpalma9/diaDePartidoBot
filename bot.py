@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 bot = telebot.TeleBot(config.TOKEN)
 chatid = config.chatid
 
-## Send info method
+## Send match info
 def sendInfo():
     #GET RM match info
     url= "https://www.realmadrid.com/futbol/partidos/calendario"
@@ -26,10 +26,15 @@ def sendInfo():
     final = ' '.join(texto)
     bot.send_message(chatid, final)
 
+# Handle /partido
+@bot.message_handler(commands=['partido'])
+def send_welcome(message):
+    sendInfo()
+
 ## Main
 # send the info everyday at 19:00
 schedule.every().day.at('19:00').do(sendInfo)
 
 while True:
     schedule.run_pending()
-    time.sleep(1)
+    bot.polling()
