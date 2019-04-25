@@ -1,3 +1,4 @@
+import threading
 import config
 import schedule
 import time
@@ -26,15 +27,23 @@ def sendInfo():
     final = ' '.join(texto)
     bot.send_message(chatid, final)
 
+# Send the info every day at 19:00
+def daily_task():
+    schedule.every().day.at('19:00').do(sendInfo)
+
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+
 # Handle /partido
 @bot.message_handler(commands=['partido'])
 def send_welcome(message):
     sendInfo()
 
 ## Main
-# send the info everyday at 19:00
-schedule.every().day.at('19:00').do(sendInfo)
+# create a thread for the daily message
+task = threading.Thread(target=daily_task)
+task.start()
 
-while True:
-    schedule.run_pending()
-    bot.polling()
+# start manage handler
+bot.polling()
