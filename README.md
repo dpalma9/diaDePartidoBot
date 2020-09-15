@@ -37,10 +37,10 @@ We need two things to run this bot:
  - The bot TOKEN.
  - The chat_id where the bot is running.
 
-# TOKEN
+### TOKEN
 You can get your TOKEN ID using @BotFather bot, asking for your bot TOKEN.
 
-# Chat ID
+### Chat ID
 
 For the chat ID, you can get it using the following URL once you add your bot to one chat group.
 
